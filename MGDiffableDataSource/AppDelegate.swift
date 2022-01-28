@@ -1,10 +1,3 @@
-//
-//  AppDelegate.swift
-//  MGDiffableDataSource
-//
-//  Created by Mike Gopsill on 25/01/2022.
-//
-
 import UIKit
 
 @main
