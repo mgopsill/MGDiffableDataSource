@@ -1,3 +1,3 @@
 ### UITableViewDiffableDataSource Example
 
-![UITableViewDiffableDataSource](example.gif)
+![UITableViewDiffableDataSource](assets/example.gif)
