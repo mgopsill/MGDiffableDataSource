@@ -4,7 +4,6 @@ final class SFSymbolsTableViewController: UITableViewController {
     
     private lazy var dataSource = makeDataSource(tableView: tableView)
     private lazy var searchBar = UISearchBar()
-    private var displayedSections = Section.allCases
         
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,7 +24,6 @@ final class SFSymbolsTableViewController: UITableViewController {
         let sections = models.availableSections.sorted(by: { $0.rawValue < $1.rawValue })
         var snapshot = Snapshot()
         snapshot.appendSections(sections)
-        self.displayedSections = sections
         
         for section in sections {
             let sectionModels = models.filter { $0.section == section }
@@ -54,7 +52,7 @@ extension SFSymbolsTableViewController {
     }
     
     func makeDataSource(tableView: UITableView) -> UITableViewDiffableDataSource<Section, SFSymbolModel> {
-        UITableViewDiffableDataSource(tableView: tableView, cellProvider: cellProvider)
+        SFSymbolsDataSource(tableView: tableView, cellProvider: cellProvider)
     }
     
     func cellProvider(tableView: UITableView, indexPath: IndexPath, model: SFSymbolModel) -> UITableViewCell {
@@ -64,14 +62,11 @@ extension SFSymbolsTableViewController {
         cell.selectionStyle = .none
         return cell
     }
-    
-    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let label = UILabel()
-        label.font = .systemFont(ofSize: 16, weight: .bold)
-        label.text = "    " + displayedSections[section].title
-        label.backgroundColor = .systemGray5
-        label.layoutMargins = .init(top: 0, left: 8, bottom: 0, right: 8)
-        return label
+}
+
+final class SFSymbolsDataSource: UITableViewDiffableDataSource<SFSymbolsTableViewController.Section, SFSymbolModel> {
+    override func tableView(_ tableView: UITableView, titleForHeaderInSection: Int) -> String? {
+        return sectionIdentifier(for: titleForHeaderInSection)?.title
     }
 }
 
